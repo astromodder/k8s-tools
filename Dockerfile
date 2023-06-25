@@ -3,14 +3,12 @@ ARG BASE_TAG="9"
 
 FROM ${BASE_IMAGE}:${BASE_TAG}
 
-ARG EL_VERSION=$BASE_TAG
-ARG PG_CLIENT_INSTALL="true"
-ARG PG_VERSION=15
 ARG PACKAGES=" \ 
     bash-completion \
     bind-utils \
     curl \
     git \
+    iputils \
     jq \
     mysql \
     net-tools \
