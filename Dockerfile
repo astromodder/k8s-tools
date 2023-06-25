@@ -3,25 +3,8 @@ ARG BASE_TAG="9"
 
 FROM ${BASE_IMAGE}:${BASE_TAG}
 
-ARG PACKAGES=" \ 
-    bash-completion \
-    bind-utils \
-    curl \
-    git \
-    iputils \
-    jq \
-    mysql \
-    net-tools \
-    openldap-clients \
-    postgresql \
-    redis \
-    sqlite \
-    tcpdump \
-    unzip \
-    vim \
-    wget \
-    wireshark-cli \
-  "
+COPY packages.txt /tmp/packages.txt
+ARG PACKAGES=$(cat /tmp/packages.txt | tr "\n" " ")
 
 RUN dnf -y update \
     && dnf -y install epel-release yum-utils \
