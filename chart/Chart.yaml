@@ -1,0 +1,7 @@
+apiVersion: v2
+name: k8s-tools
+description: A Helm chart for Kubernetes, deploying the heysarver/k8s-tools image
+
+type: application
+version: 0.1.0
+appVersion: latest

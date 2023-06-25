@@ -1,16 +1,35 @@
-# syntax=docker/dockerfile:1
+ARG BASE_IMAGE="rockylinux"
+ARG BASE_TAG="9"
 
-FROM rockylinux:8
+FROM ${BASE_IMAGE}:${BASE_TAG}
 
-RUN dnf -y install epel-release yum-utils
+ARG EL_VERSION=$BASE_TAG
+ARG PG_CLIENT_INSTALL="true"
+ARG PG_VERSION=15
+ARG PACKAGES=" \ 
+    bash-completion \
+    bind-utils \
+    curl \
+    git \
+    jq \
+    mysql \
+    net-tools \
+    openldap-clients \
+    postgresql \
+    redis \
+    sqlite \
+    tcpdump \
+    unzip \
+    vim \
+    wget \
+    wireshark-cli \
+  "
 
-RUN yum-config-manager --enable epel powertools
-
-RUN dnf -y install wget curl sudo redis vim-enhanced nmap net-tools bind-utils
-
-RUN dnf install -y --nogpgcheck https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
-RUN dnf -qy --nogpgcheck module disable postgresql
-RUN dnf install -y --nogpgcheck postgresql14
-RUN yum-config-manager --disable pgdg*
+RUN dnf -y update \
+    && dnf -y install epel-release yum-utils \
+    && yum-config-manager --enable epel \
+    && dnf install -y --setopt=install_weak_deps=False --allowerasing $PACKAGES \
+    && dnf clean all \
+    && rm -rf /var/cache/dnf
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]
