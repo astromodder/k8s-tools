@@ -3,7 +3,13 @@ kind: Deployment
 metadata:
   name: k8s-tools
 spec:
+  selector:
+    matchLabels:
+      app: k8s-tools
   template:
+    metadata:
+      labels:
+        app: k8s-tools
     spec:
       containers:
         - name: k8s-tools
